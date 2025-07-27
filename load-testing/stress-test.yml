@@ -1,0 +1,42 @@
+
+config:
+  target: 'https://indieshots.replit.app'
+  phases:
+    # Extreme load test
+    - duration: 60
+      arrivalRate: 100
+      rampTo: 500
+      name: "Stress test 500 users"
+    # Breaking point test
+    - duration: 30
+      arrivalRate: 500
+      rampTo: 1000
+      name: "Breaking point 1000 users"
+  defaults:
+    headers:
+      User-Agent: "Artillery Stress Test"
+      Accept: "application/json"
+
+scenarios:
+  # Focus on lightweight endpoints for stress testing
+  - name: "High Volume Health Checks"
+    weight: 50
+    flow:
+      - get:
+          url: "/health"
+      - get:
+          url: "/"
+
+  - name: "API Stress Test"
+    weight: 30
+    flow:
+      - get:
+          url: "/api/health"
+
+  - name: "Static Asset Stress"
+    weight: 20
+    flow:
+      - get:
+          url: "/"
+      - get:
+          url: "/dashboard"

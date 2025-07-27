@@ -1,0 +1,58 @@
+# Cloud Build configuration for IndieShots GCP deployment
+steps:
+  # Step 1: Build the Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/indieshots:$BUILD_ID', '.']
+    timeout: '1200s'
+
+  # Step 2: Push the image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/indieshots:$BUILD_ID']
+
+  # Step 3: Deploy to Cloud Run
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'indieshots'
+      - '--image=gcr.io/$PROJECT_ID/indieshots:$BUILD_ID'
+      - '--region=us-central1'
+      - '--platform=managed'
+      - '--allow-unauthenticated'
+      - '--port=8080'
+      - '--memory=1Gi'
+      - '--cpu=1'
+      - '--max-instances=10'
+      - '--min-instances=0'
+      - '--concurrency=80'
+      - '--timeout=300'
+      - '--set-env-vars=NODE_ENV=production,PORT=8080'
+      - '--set-secrets=DATABASE_URL=database-url:latest,OPENAI_API_KEY=openai-api-key:latest,JWT_SECRET=jwt-secret:latest,VITE_FIREBASE_API_KEY=firebase-api-key:latest,VITE_FIREBASE_PROJECT_ID=firebase-project-id:latest'
+
+  # Step 4: Update traffic to new revision
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'run'
+      - 'services'
+      - 'update-traffic'
+      - 'indieshots'
+      - '--to-latest'
+      - '--region=us-central1'
+
+# Build timeout
+timeout: '1800s'
+
+# Artifacts
+images:
+  - 'gcr.io/$PROJECT_ID/indieshots:$BUILD_ID'
+
+# Build options
+options:
+  logging: CLOUD_LOGGING_ONLY
+  machineType: 'E2_HIGHCPU_8'
+  diskSizeGb: 100
+
+# Substitutions for customization
+substitutions:
+  _REGION: 'us-central1'
+  _SERVICE_NAME: 'indieshots'

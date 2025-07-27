@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IndieShots - Authentication Fix</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .button {
+            background-color: #6366f1;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        .button:hover {
+            background-color: #5855eb;
+        }
+        .success {
+            color: #059669;
+            font-weight: bold;
+        }
+        .error {
+            color: #dc2626;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>IndieShots - Authentication Fix</h1>
+        <p>This page will set up your authentication to enable shot generation.</p>
+        
+        <button class="button" onclick="authenticateUser()">Set Up Premium Demo Authentication</button>
+        
+        <div id="status"></div>
+        
+        <h3>Instructions:</h3>
+        <ol>
+            <li>Click the button above to authenticate as premium demo user</li>
+            <li>Once authenticated, refresh your IndieShots page</li>
+            <li>Try generating shots again</li>
+        </ol>
+    </div>
+
+    <script>
+        async function authenticateUser() {
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerHTML = 'Setting up authentication...';
+            
+            try {
+                const response = await fetch('/api/auth/firebase-login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        idToken: 'demo-token',
+                        email: 'premium@demo.com',
+                        displayName: 'Premium Demo User',
+                        uid: 'premium-demo-uid'
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    statusDiv.innerHTML = `<div class="success">✓ Authentication successful! You are now logged in as: ${data.email} (${data.tier} tier)</div>`;
+                    statusDiv.innerHTML += '<p>You can now close this page and refresh your IndieShots application to use shot generation.</p>';
+                } else {
+                    const error = await response.json();
+                    statusDiv.innerHTML = `<div class="error">Authentication failed: ${error.message}</div>`;
+                }
+            } catch (error) {
+                statusDiv.innerHTML = `<div class="error">Error: ${error.message}</div>`;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+# Terraform variables example file
+# Copy this to terraform.tfvars and fill in your values
+
+project_id = "indieshots-prod"
+region     = "us-central1"
+
+# Database options
+use_cloud_sql = false  # Set to true if you want to use Cloud SQL instead of Neon
+db_password   = ""     # Only needed if use_cloud_sql = true
+
+# Domain options
+custom_domain = ""     # Optional: your custom domain (e.g., "indieshots.com")

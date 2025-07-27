@@ -1,0 +1,21 @@
+# Upload Page
+
+The upload page features:
+- Clean, focused interface for uploading screenplay files
+- Two-option interface:
+  1. File upload area with drag-and-drop functionality
+     - Supports PDF, DOCX, and TXT files up to 5MB
+     - Visual feedback for drag states (active, hover, error)
+     - File validation with helpful error messages
+  2. Text input area for direct script pasting
+     - Monospaced font for proper screenplay formatting
+     - Character/word counter
+     - Auto-calculation of estimated page count
+- Usage statistics showing current quota status
+- Recently uploaded files section at the bottom
+- Next/Cancel navigation buttons
+- Helpful instructions and file format requirements
+
+The design maintains the dark theme with indigo accents. The upload area has a dashed border that changes color during drag operations, providing clear visual feedback. Error states display helpful messages in red, while successful uploads show a green check mark.
+
+Screenshot URL: [Insert screenshot URL when available]

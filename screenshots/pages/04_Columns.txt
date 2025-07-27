@@ -1,0 +1,31 @@
+# Columns Selection Page
+
+The columns selection page includes:
+- Script metadata card showing:
+  - Script title
+  - Page count
+  - Format (PDF/DOCX/TXT)
+  - Upload date
+- Enhanced column selector interface with:
+  - Each column option in its own card
+  - Unique icon for each column type (e.g., "#" for scene number)
+  - Column name and detailed description
+  - Checkbox for selection
+  - Visual highlighting for selected columns (indigo background/border)
+- Available columns include:
+  - Scene Number
+  - Scene Heading
+  - Location
+  - Time
+  - Characters
+  - Props
+  - Tone
+  - Camera Movement
+  - Action
+  - Dialogue
+- Back/Next navigation buttons
+- Selected column count display
+
+The updated design features a more visually appealing column selector with cards that change appearance when selected. Each column type has a unique icon displayed in a small badge, making it easier to identify different column types at a glance.
+
+Screenshot URL: [Insert screenshot URL when available]

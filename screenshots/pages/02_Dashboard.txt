@@ -1,0 +1,17 @@
+# Dashboard Page
+
+The dashboard page includes:
+- Three-panel layout with collapsible left navigation and optional right panel
+- Header with app branding, notifications, and user profile dropdown
+- Usage statistics showing pages used vs. total pages available with a visual meter
+- Recent Scripts section with cards for each script
+  - Each card shows title, date, page count, and format
+  - Quick action buttons for continuing work
+- Status cards showing total uploads and completed jobs
+- Quick action buttons for starting new scripts or accessing recent work
+
+The dashboard uses the dark theme with indigo accents consistently throughout. Cards have subtle shadows and border accents to create depth. The overall design is clean and focused on providing quick access to important information and actions.
+
+Status indicators use color coding (green for complete, amber for in progress, etc.) to provide visual feedback on script status.
+
+Screenshot URL: [Insert screenshot URL when available]

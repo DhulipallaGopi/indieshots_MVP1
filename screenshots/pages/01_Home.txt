@@ -1,0 +1,18 @@
+# Home Page
+
+The home page of IndieShots features:
+- Dark background with indigo accents
+- Large hero section with a title "From Script to Screen, Faster than Ever"
+- Quick value proposition explaining how the app helps indie filmmakers
+- Two prominent buttons: "Get Started Free" and "View Features"
+- Clean three-step workflow section with icons
+- Feature highlights with unique icons
+- Two-tier pricing section showing Free and Pro options
+- Strong CTA section at the bottom
+- Minimal footer with essential links
+
+The design is sleek, modern, and tailored for independent filmmakers. The indigo accent color (#330099) creates a premium feel while maintaining a professional appearance.
+
+No testimonials section, as requested, focusing instead on clear features and benefits.
+
+Screenshot URL: [Insert screenshot URL when available]

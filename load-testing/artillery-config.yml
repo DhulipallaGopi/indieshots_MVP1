@@ -1,0 +1,111 @@
+
+config:
+  target: 'https://indieshots.replit.app'
+  phases:
+    # Warm-up phase
+    - duration: 30
+      arrivalRate: 1
+      name: "Warm-up"
+    # Ramp-up phase
+    - duration: 60
+      arrivalRate: 1
+      rampTo: 10
+      name: "Ramp-up to 10 users"
+    # Sustained load
+    - duration: 120
+      arrivalRate: 10
+      name: "Sustained 10 users"
+    # Peak load test
+    - duration: 60
+      arrivalRate: 10
+      rampTo: 50
+      name: "Peak load 50 users"
+    # Stress test
+    - duration: 30
+      arrivalRate: 50
+      rampTo: 100
+      name: "Stress test 100 users"
+  payload:
+    path: "test-data.csv"
+    fields:
+      - "email"
+      - "password"
+  defaults:
+    headers:
+      User-Agent: "Artillery Load Test"
+      Accept: "application/json"
+
+scenarios:
+  # Test authentication flow
+  - name: "Authentication Flow"
+    weight: 30
+    flow:
+      - get:
+          url: "/"
+      - get:
+          url: "/auth"
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "test{{ $randomInt(1, 100) }}@loadtest.com"
+            password: "testpassword123"
+          capture:
+            - json: "$.token"
+              as: "authToken"
+      - get:
+          url: "/api/auth/user"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+
+  # Test dashboard and basic navigation
+  - name: "Dashboard Navigation"
+    weight: 25
+    flow:
+      - get:
+          url: "/"
+      - get:
+          url: "/dashboard"
+      - get:
+          url: "/projects"
+      - get:
+          url: "/upload"
+
+  # Test API endpoints
+  - name: "API Health Checks"
+    weight: 20
+    flow:
+      - get:
+          url: "/health"
+      - get:
+          url: "/api/health"
+
+  # Test static file serving
+  - name: "Static Assets"
+    weight: 15
+    flow:
+      - get:
+          url: "/assets/generated-icon.png"
+      - get:
+          url: "/"
+          capture:
+            - regexp: 'src="(/assets/[^"]+)"'
+              as: "assetUrl"
+      - get:
+          url: "{{ assetUrl }}"
+
+  # Test file upload simulation (without actual files)
+  - name: "Upload Flow Simulation"
+    weight: 10
+    flow:
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "loadtest@demo.com"
+            password: "testpass123"
+          capture:
+            - json: "$.token"
+              as: "authToken"
+      - get:
+          url: "/api/scripts"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
